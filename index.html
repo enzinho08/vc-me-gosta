@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -27,7 +26,7 @@
             color: #ffffff;
             border: none;
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 16px; 
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -40,46 +39,38 @@
             font-weight: bold;
             margin-top: 20px;
         }
+
+        #frameContainer {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .frame {
+            border: 2px solid #ccc;
+            width: 45%;
+            height: 300px;
+        }
     </style>
 </head>
 <body>
     <h1>Você ainda gosta de mim?</h1>
-    <p>Olá! Faz um tempo que não nos vemos. 😊</p>
-    <p>Quero saber: você ainda gosta de mim?</p>
-    <button id="simButton">Sim, gosto!</button>
-    <button id="naoButton">Não, obrigado(a)</button>
-    <p id="resposta"></p>
+    <div id="frameContainer">
+        <iframe class="frame" src="frame.html"></iframe>
+        <iframe class="frame" src="frame.html"></iframe>
+    </div>
 
     <script>
-        let respostaSelecionada = sessionStorage.getItem("resposta");
-
-        document.getElementById("simButton").onclick = function() {
-            respostaSelecionada = "sim";
-            sessionStorage.setItem("resposta", respostaSelecionada);
-            document.cookie = "resposta=sim; expires=Fri, 31 Dec 9999 23:59:59 GMT"; // Definir cookie para expirar em um futuro distante
-            mostrarResposta();
-        };
-
-        document.getElementById("naoButton").onclick = function() {
-            respostaSelecionada = "nao";
-            sessionStorage.setItem("resposta", respostaSelecionada);
-            document.cookie = "resposta=nao; expires=Fri, 31 Dec 9999 23:59:59 GMT"; // Definir cookie para expirar em um futuro distante
-            mostrarResposta();
-        };
-
-        function mostrarResposta() {
-            const respostaElement = document.getElementById("resposta");
-            if (respostaSelecionada === "sim") {
-                respostaElement.innerText = "🥰 Fico feliz em saber!";
-            } else if (respostaSelecionada === "nao") {
-                respostaElement.innerText = "😢 Tudo bem, a vida segue!";
+        window.addEventListener('message', function(event) {
+            if (event.data === 'sim' || event.data === 'nao') {
+                document.querySelectorAll('.frame').forEach(frame => {
+                    if (frame !== event.source) {
+                        frame.contentWindow.postMessage(event.data, '*');
+                    }
+                });
             }
-        }
-
-        // Verificar se já existe uma resposta
-        if (respostaSelecionada) {
-            mostrarResposta();
-        }
+        });
     </script>
 </body>
 </html>
+
+
