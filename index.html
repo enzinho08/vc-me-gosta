@@ -45,22 +45,26 @@
     <h1>Você ainda gosta de mim?</h1>
     <p>Olá! Faz um tempo que não nos vemos. 😊</p>
     <p>Quero saber: você ainda gosta de mim?</p>
-    <button onclick="simGosta()">Sim, gosto!</button>
-    <button onclick="naoGosta()">Não, obrigado(a)</button>
+    <button id="simButton">Sim, gosto!</button>
+    <button id="naoButton">Não, obrigado(a)</button>
     <p id="resposta"></p>
 
     <script>
-        let respostaSelecionada = "";
+        let respostaSelecionada = sessionStorage.getItem("resposta");
 
-        function simGosta() {
+        document.getElementById("simButton").onclick = function() {
             respostaSelecionada = "sim";
+            sessionStorage.setItem("resposta", respostaSelecionada);
+            document.cookie = "resposta=sim; expires=Fri, 31 Dec 9999 23:59:59 GMT"; // Definir cookie para expirar em um futuro distante
             mostrarResposta();
-        }
+        };
 
-        function naoGosta() {
+        document.getElementById("naoButton").onclick = function() {
             respostaSelecionada = "nao";
+            sessionStorage.setItem("resposta", respostaSelecionada);
+            document.cookie = "resposta=nao; expires=Fri, 31 Dec 9999 23:59:59 GMT"; // Definir cookie para expirar em um futuro distante
             mostrarResposta();
-        }
+        };
 
         function mostrarResposta() {
             const respostaElement = document.getElementById("resposta");
@@ -72,12 +76,8 @@
         }
 
         // Verificar se já existe uma resposta
-        window.onload = function() {
-            const respostaCookie = document.cookie.split(";").find(cookie => cookie.trim().startsWith("resposta="));
-            if (respostaCookie) {
-                respostaSelecionada = respostaCookie.split("=")[1];
-                mostrarResposta();
-            }
+        if (respostaSelecionada) {
+            mostrarResposta();
         }
     </script>
 </body>
