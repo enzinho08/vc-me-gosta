@@ -21,37 +21,35 @@
             margin-bottom: 20px;
         }
 
-        button {
-            background-color: #ff6b6b;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        #frameContainer {
+            display: flex;
+            justify-content: space-around;
         }
 
-        button:hover {
-            background-color: #e74c3c;
-        }
-
-        #resposta {
-            font-weight: bold;
-            margin-top: 20px;
+        .frame {
+            border: 2px solid #ccc;
+            width: 45%;
+            height: 300px;
         }
     </style>
 </head>
 <body>
-    <p>Quero saber: você ainda gosta de mim?</p>
-    <button onclick="enviarResposta('sim')">Sim, gosto!</button>
-    <button onclick="enviarResposta('nao')">Não, obrigado(a)</button>
-    <p id="resposta"></p>
+    <h1>Você ainda gosta de mim?</h1>
+    <div id="frameContainer">
+        <iframe class="frame" src="https://enzinho08.github.io/vc-me-gosta//frame.html"></iframe>
+        <iframe class="frame" src="https://enzinho08.github.io/vc-me-gosta//frame.html"></iframe>
+    </div>
 
     <script>
-        function enviarResposta(resposta) {
-            window.parent.postMessage(resposta, '*');
-            document.getElementById("resposta").innerText = resposta === "sim" ? "🥰 Fico feliz em saber!" : "😢 Tudo bem, a vida segue!";
-        }
+        window.addEventListener('message', function(event) {
+            if (event.data === 'sim' || event.data === 'nao') {
+                document.querySelectorAll('.frame').forEach(frame => {
+                    if (frame !== event.source) {
+                        frame.contentWindow.postMessage(event.data, '*');
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
