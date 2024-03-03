@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Você ainda gosta de mim?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff6b6b;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #ff6b6b;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e74c3c;
+        }
+
+        #resposta {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Você ainda gosta de mim?</h1>
+    <p>Olá! estou muito triste :(. 🥺</p>
+    <p>Quero saber: você ainda gosta de mim?</p>
+    <button onclick="simGosta()">Sim, gosto!</button>
+    <button onclick="naoGosta()">Não, obrigado(a)</button>
+    <p id="resposta"></p>
+
+    <script>
+        function simGosta() {
+            document.getElementById("resposta").innerText = "🥰 Fico feliz em saber!";
+            // Armazenar a resposta em um cookie
+            document.cookie = "resposta=sim";
+        }
+
+        function naoGosta() {
+            document.getElementById("resposta").innerText = "😢 Tudo bem, a vida segue!";
+            // Armazenar a resposta em um cookie
+            document.cookie = "resposta=nao";
+        }
+
+        // Verificar se há um cookie com a resposta
+        const respostaCookie = document.cookie.split(";").find(cookie => cookie.trim().startsWith("resposta="));
+        if (respostaCookie) {
+            const resposta = respostaCookie.split("=")[1];
+            document.getElementById("resposta").innerText = resposta === "sim" ? "🥰 Fico feliz em saber!" : "😢 Tudo bem, a vida segue!";
+        }
+    </script>
+</body>
+</html>
