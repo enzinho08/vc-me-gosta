@@ -43,30 +43,32 @@
 </head>
 <body>
     <h1>Você ainda gosta de mim?</h1>
-    <p>Olá! estou muito triste :(. 🥺</p>
+    <p>Olá! Faz um tempo que não nos vemos. 😊</p>
     <p>Quero saber: você ainda gosta de mim?</p>
     <button onclick="simGosta()">Sim, gosto!</button>
     <button onclick="naoGosta()">Não, obrigado(a)</button>
     <p id="resposta"></p>
 
     <script>
+        let respostaSelecionada = "";
+
         function simGosta() {
-            document.getElementById("resposta").innerText = "🥰 Fico feliz em saber!";
-            // Armazenar a resposta em um cookie
-            document.cookie = "resposta=sim";
+            respostaSelecionada = "sim";
+            mostrarResposta();
         }
 
         function naoGosta() {
-            document.getElementById("resposta").innerText = "😢 Tudo bem, a vida segue!";
-            // Armazenar a resposta em um cookie
-            document.cookie = "resposta=nao";
+            respostaSelecionada = "nao";
+            mostrarResposta();
         }
 
-        // Verificar se há um cookie com a resposta
-        const respostaCookie = document.cookie.split(";").find(cookie => cookie.trim().startsWith("resposta="));
-        if (respostaCookie) {
-            const resposta = respostaCookie.split("=")[1];
-            document.getElementById("resposta").innerText = resposta === "sim" ? "🥰 Fico feliz em saber!" : "😢 Tudo bem, a vida segue!";
+        function mostrarResposta() {
+            const respostaElement = document.getElementById("resposta");
+            if (respostaSelecionada === "sim") {
+                respostaElement.innerText = "🥰 Fico feliz em saber!";
+            } else if (respostaSelecionada === "nao") {
+                respostaElement.innerText = "😢 Tudo bem, a vida segue!";
+            }
         }
     </script>
 </body>
